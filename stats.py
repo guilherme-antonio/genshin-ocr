@@ -8,19 +8,23 @@ class Stats():
         for line in base_stats:
             if 'ATK' in line:
                 stat_value = helper.get_stat_value(line, 'ATK')
-
-                splited_atk = stat_value.split('+')
-
-                self.base_atk = int(splited_atk[0].strip())
-                self.total_atk = int(splited_atk[1].rsplit(' ')[0].strip()) + self.base_atk
-
+                self.set_atack(stat_value)
             if 'CRIT Rate' in line:
                 stat_value = helper.get_stat_value(line, 'CRIT Rate')
-                self.crit_rate = float(stat_value.removesuffix('%'))
+                self.crit_rate = helper.get_percent_value(stat_value)
 
             if 'CRIT DMG' in line:
                 stat_value = helper.get_stat_value(line, 'CRIT DMG')
-                self.crit_damage = float(stat_value.removesuffix('%'))
+                self.crit_damage = helper.get_percent_value(stat_value)
+
+    def set_atack(self, stat_value):
+        splited_atk = stat_value.split('+')
+
+        base_atack = helper.format_int(splited_atk[0])
+        bonus_atack = helper.format_int(splited_atk[1].rsplit(' ')[0])
+
+        self.base_atk = base_atack
+        self.total_atk = bonus_atack + base_atack
 
     def show_stats(self):
         print(f'Base ATK {self.base_atk}')

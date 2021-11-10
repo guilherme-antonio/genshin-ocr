@@ -14,17 +14,17 @@ class Artifact():
                 stat_value = helper.get_stat_value(line, 'ATK')
 
                 if (stat_value.endswith('%')):
-                    self.scale_atk = float(stat_value.removesuffix('%'))
+                    self.scale_atk = helper.get_percent_value(stat_value)
                 else:
                     self.flat_atk = int(stat_value)
 
             if 'CRIT Rate' in line:
                 stat_value = helper.get_stat_value(line, 'CRIT Rate')
-                self.crit_rate = float(stat_value.removesuffix('%'))
+                self.crit_rate = helper.get_percent_value(stat_value)
 
             if 'CRIT DMG' in line:
                 stat_value = helper.get_stat_value(line, 'CRIT DMG')
-                self.crit_damage = float(stat_value.removesuffix('%'))
+                self.crit_damage = helper.get_percent_value(stat_value)
 
     def show_stats(self):
         print(f'Flat ATK {self.flat_atk}')

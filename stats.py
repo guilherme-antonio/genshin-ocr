@@ -1,36 +1,26 @@
+import helper
+
 class Stats():
     def __init__(self, base_stats):
-        self.base_atk = 0
-        self.total_atk = 0
-        self.crit_rate = 0
-        self.crit_damage = 0
-
-        #IMPORTANT_STATS_LIST = ('ATK', 'CRIT Rate', 'CRIT DMG')
-
         if (base_stats is None):
             return
 
-        stats_in_lines = base_stats.splitlines()
-
-        for line in stats_in_lines:
+        for line in base_stats:
             if 'ATK' in line:
-                stat_value = self.get_stat_value(line, 'ATK')
+                stat_value = helper.get_stat_value(line, 'ATK')
 
                 splited_atk = stat_value.split('+')
 
                 self.base_atk = int(splited_atk[0].strip())
-                self.total_atk = int(splited_atk[1].strip()) + self.base_atk
+                self.total_atk = int(splited_atk[1].rsplit(' ')[0].strip()) + self.base_atk
 
             if 'CRIT Rate' in line:
-                stat_value = self.get_stat_value(line, 'CRIT Rate')
-                self.crit_rate = float(stat_value.replace("%", ""))
+                stat_value = helper.get_stat_value(line, 'CRIT Rate')
+                self.crit_rate = float(stat_value.removesuffix('%'))
 
             if 'CRIT DMG' in line:
-                stat_value = self.get_stat_value(line, 'CRIT DMG')
-                self.crit_damage = float(stat_value.replace("%", ""))
-
-    def get_stat_value(self, line, stat):
-        return line.rsplit(stat)[1].strip()
+                stat_value = helper.get_stat_value(line, 'CRIT DMG')
+                self.crit_damage = float(stat_value.removesuffix('%'))
 
     def show_stats(self):
         print(f'Base ATK {self.base_atk}')
